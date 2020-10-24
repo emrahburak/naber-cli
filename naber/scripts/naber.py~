@@ -1,0 +1,94 @@
+
+import click
+import pyvim
+import sys
+
+class Config():
+
+    def __init__(self):
+        self.verbose = False
+
+
+    def myfunction(self):
+        print("my function")
+
+
+def testfunction():
+    print("testfunction")
+
+
+
+ 
+
+
+pass_config = click.make_pass_decorator(Config, ensure=True)
+   
+@click.group()
+@click.option('--verbose', is_flag=True)
+@pass_config
+def cli(config, verbose):
+    config.verbose = verbose
+    pass
+
+
+@click.command()
+@click.argument('out', type=click.File('w'), default='-',
+                required=False)
+def initdb(out):
+    """ This scripts create your database """
+    click.echo('Initialized the database')
+
+@click.command()
+def dropdb():
+    click.echo('Dropped the database')
+
+
+@click.command()
+@click.argument('read', type=click.File('r'), default='-',
+                required=False)
+@pass_config
+def read(config, read):
+    var = read
+    if config.verbose:
+        click.echo("we are in verbose mode ",)
+        config.myfunction()
+    click.echo(var)
+
+
+
+   
+
+
+
+@click.command()
+@click.option('-c','--count', default=1, help='number of greetings')
+@click.option('-s','--string', default='you', help='write your name')
+@click.argument('out', type=click.File('w'), default='-',
+                required=False)
+#@click.argument('')
+def hello(count, string, out):
+    """ This scripts greets you """
+
+    print('write your message\n')
+
+    no_of_lines = 5
+    lines = ""
+    for i in range(no_of_lines):
+        lines+=input()+"\n"
+        
+    print(lines)
+
+    
+    #click.echo(out)
+    #for x in range(count):
+    #    click.echo(f'Hello {string}!', file=out, color=True)
+    
+
+
+cli.add_command(initdb)
+cli.add_command(dropdb)
+cli.add_command(hello)
+cli.add_command(read)
+
+
+
