@@ -1,8 +1,10 @@
 
 
 import dataset
-from naber.storage import constant
 import os
+from stuf import stuf
+from naber.storage import constant
+from datetime import date
 
 
 def multiline_content(number):
@@ -31,14 +33,14 @@ def to_storage(post):
     root_dir = '.'
     for dir_name, subdirlist, filelist in os.walk(root_dir):
         #print(f'found directory {dir_name}')
-        if dir_name == './naber/storage':
+        if dir_name == constant.DB_PATH:
             db_path = os.path.join(dir_name, 'mydatabase.db')
 
-    db = dataset.connect('sqlite:///'+db_path)
+    db = dataset.connect('sqlite:///'+db_path, row_type=stuf)
     table = db[constant.TABLE]
     db.begin()
     try:
-        table.insert(dict(title=title, content=content))
+        table.insert(dict(title=title, content=content, created=date.today()))
         db.commit()
     except:
         db.rollback()

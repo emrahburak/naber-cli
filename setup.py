@@ -10,7 +10,8 @@ setup(
     include_package_data=True,
     install_requires=[
         'Click',
-        'dataset'
+        'dataset',
+        'stuf'
         ],
 
     entry_points='''
