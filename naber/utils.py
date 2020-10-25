@@ -11,18 +11,20 @@ def multiline_content(number):
     if number < 3:
         number = 3
         print(f"Default lines 3")
-        print(f'You have 3 lines')
+        print(f'You have "3" lines')
     else:
-        print(f'You have {number} lines')
+        print(f'You have "{number}" lines')
 
-    print('Write your message\n')
+    print(f'{constant.BColors.OKGREEN}Write your content. \
+    {constant.BColors.ENDC}\n')
     counter = number
     lines = ""
     for i in range(number):
         lines += input('('+str(counter)+')'+" >> ")+"\n"
         counter = counter-1
 
-    title = input("Write your title : ")
+    title = input(f'{constant.BColors.OKGREEN}Write your title.\
+    {constant.BColors.ENDC}\n >> ')
     return title, lines
 
 
@@ -34,14 +36,15 @@ def to_storage(post):
     for dir_name, subdirlist, filelist in os.walk(root_dir):
         #print(f'found directory {dir_name}')
         if dir_name == constant.DB_PATH:
-            db_path = os.path.join(dir_name, 'mydatabase.db')
+            path = os.path.join(dir_name, constant.DB_NAME)
 
-    db = dataset.connect('sqlite:///'+db_path, row_type=stuf)
-    table = db[constant.TABLE]
+    db = dataset.connect(os.path.join(constant.DB_SQLITE, path), row_type=stuf)
+    table = db[constant.DB_TABLE_POSTS]
     db.begin()
     try:
         table.insert(dict(title=title, content=content, created=date.today()))
         db.commit()
+        print(f"{constant.BColors.OKBLUE}Comitted.{constant.BColors.ENDC}")
     except:
         db.rollback()
         

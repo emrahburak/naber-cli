@@ -1,6 +1,8 @@
 # Naber-Cli
 
-### Installation
+### Test
 ```sh
+$ virtualenv venv
+$ . venv/bin/activate
 $ pip install --editable .
 ```
