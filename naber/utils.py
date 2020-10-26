@@ -27,6 +27,14 @@ def multiline_content(number):
     return title, lines
 
 
+def minimalize_string(string):
+    if len(string) > 11:
+        return string[:7]+'..'
+    return string
+                   
+    
+
+
 def zero_checker(number):
     if number < 1:
         return False

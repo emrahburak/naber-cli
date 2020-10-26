@@ -17,3 +17,9 @@ class BColors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+
+#status
+
+COMMIT = 'Comitted.'
+RESULT = 'Result..'
+

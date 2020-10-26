@@ -23,7 +23,7 @@ def to_storage(post):
         title, content = post
         db[constant.DB_TABLE_POSTS].insert(dict(title=title, content=content, created=date.today()))
     
-        return utils.color_blue_status('Comitted')
+        return utils.color_blue_status(constant.COMMIT)
         
 
 def get_storage(limit):
@@ -31,9 +31,10 @@ def get_storage(limit):
         query = db[constant.DB_TABLE_POSTS].find(order_by=['-created',
                                                            '-id'],
                                                  _limit=limit)
-        print(utils.color_green_info('Result...'))
+        print(utils.color_green_info(constant.RESULT))
 
         for row in query:
-            print(' >> ',row.title ,'\t', row.created)
+            print(' >> ',utils.minimalize_string(row.title)
+                  ,'\t', row.created)
         return utils.color_blue_status(f'Last {limit} '
                                            + utils.is_plural(limit,'row'))
