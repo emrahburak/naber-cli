@@ -1,6 +1,7 @@
 
 
 from naber import constant
+import os
 
 
 color = constant.BColors()
@@ -8,7 +9,7 @@ color = constant.BColors()
 
 def multiline_content(number):
     """ EOF """
-    if not zero_checker(number):
+    if not is_zero(number):
         number = 3
         print(f"Default lines 3")
         print(f'You have "3" lines')
@@ -28,14 +29,13 @@ def multiline_content(number):
 
 
 def minimalize_string(string):
+    """ slice the string """
     if len(string) > 11:
         return string[:7]+'..'
     return string
                    
     
-
-
-def zero_checker(number):
+def is_zero(number):
     if number < 1:
         return False
     return True
@@ -51,6 +51,15 @@ def is_plural(number,string):
 def do_plural(string):
     """ add to 's' end of string """
     return string+'s'
+
+
+def path_creator(path):
+    """ check or create path """
+    if not os.path.exists(path):
+        os.makedirs(path)
+        return path
+    return path
+        
     
 
 def color_green_info(string):

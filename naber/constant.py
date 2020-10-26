@@ -1,6 +1,9 @@
 
+from pathlib import Path
+
 #database
-ROOT_DIR = '.'
+ROOT_DIR = '.config'
+NABER_DIR = 'naber'
 DB_NAME = 'naber-cli.db'
 DB_TABLE_POSTS = 'POSTS'
 DB_SQLITE = 'sqlite:///'

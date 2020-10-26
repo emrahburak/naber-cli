@@ -1,6 +1,7 @@
 
 import dataset
 import os
+from pathlib import Path
 from stuf import stuf
 from naber import constant
 from datetime import date
@@ -8,15 +9,19 @@ from naber import utils
 
 
 def create_storage():
-    """ Crate Db on root dir and connect to db"""
-    for dir_name, subdirlist, filelist in os.walk(constant.ROOT_DIR):
-       #print(f'found directory {dir_name}')
-       if dir_name == constant.ROOT_DIR:
-           path = os.path.join(dir_name, constant.DB_NAME)
-           return dataset.connect(os.path.join(constant.DB_SQLITE, path), row_type=stuf)
+    """ Crate Db on constant.ROOT_DIR dir and connect to db"""
+    with Path.home() as home_dir:
+        path_create = os.path.join(home_dir
+                          ,constant.ROOT_DIR
+                          ,constant.NABER_DIR)
+        path_db = utils.path_creator(path_create)
 
+        return dataset.connect(constant.DB_SQLITE
+                               + os.path.join(path_db
+                                              ,constant.DB_NAME),
+                               row_type=stuf)
 
-
+        
 def to_storage(post):
     """ find db path connect and commit"""
     with create_storage() as db:
