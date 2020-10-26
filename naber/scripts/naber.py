@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
+
 import click
-import pyvim
 import sys
 from naber import utils
+from naber import models
+from naber import constant
 
+ 
 class Config():
 
     def __init__(self):
@@ -11,7 +14,7 @@ class Config():
 
 
     def myfunction(self):
-        print("my function")
+        print("--test my function")
 
 
 
@@ -39,15 +42,17 @@ def dropdb():
 
 
 @click.command()
+@click.option('--limit', default=3, help="number of row")
 @click.argument('read', type=click.File('r'), default='-',
                 required=False)
 @pass_config
-def read(config, read):
+def read(config,limit, read):
     "read your posts"
-    var = read
     if config.verbose:
         click.echo("we are in verbose mode ",)
         config.myfunction()
+    result = models.get_storage(limit)
+    click.echo(result)
 
 
 
@@ -57,7 +62,8 @@ def post(line):
     "post your message"
 
     post = utils.multiline_content(line)
-    utils.to_storage(post)
+    commit = models.to_storage(post)
+    click.echo(commit)
     pass
    
 
@@ -71,17 +77,19 @@ def post(line):
 def hello(count, string, out):
     """ This scripts greets you """
        
-    click.echo(out)
     for x in range(count):
-        click.echo(f'Hello {string}!', file=out, color=True)
+        click.echo(utils.color_green_info(f'Hello {string}'),
+                   file=out )
     
 
 
-cli.add_command(initdb)
-cli.add_command(dropdb)
+#cli.add_command(initdb)
+#cli.add_command(dropdb)
 cli.add_command(hello)
 cli.add_command(read)
 cli.add_command(post)
+
+
 
 
 

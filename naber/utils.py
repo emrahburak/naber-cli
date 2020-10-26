@@ -1,54 +1,58 @@
 
 
-import dataset
-import os
-from stuf import stuf
-from naber.storage import constant
-from datetime import date
+from naber import constant
+
+
+color = constant.BColors()
 
 
 def multiline_content(number):
-    if number < 3:
+    """ EOF """
+    if not zero_checker(number):
         number = 3
         print(f"Default lines 3")
         print(f'You have "3" lines')
     else:
-        print(f'You have "{number}" lines')
+        print(f'You have "{number}" '
+              + is_plural(number,'line'))
 
-    print(f'{constant.BColors.OKGREEN}Write your content. \
-    {constant.BColors.ENDC}\n')
+    print(color_green_info('Write your content.\n'))
     counter = number
     lines = ""
     for i in range(number):
         lines += input('('+str(counter)+')'+" >> ")+"\n"
         counter = counter-1
 
-    title = input(f'{constant.BColors.OKGREEN}Write your title.\
-    {constant.BColors.ENDC}\n >> ')
+    title = input(color_green_info('Write your title.')+'\n >> ')
     return title, lines
 
 
-
-def to_storage(post):
-    """ find db_path or create db connect to db and commit"""
-    title, content = post
-    root_dir = '.'
-    for dir_name, subdirlist, filelist in os.walk(root_dir):
-        #print(f'found directory {dir_name}')
-        if dir_name == constant.DB_PATH:
-            path = os.path.join(dir_name, constant.DB_NAME)
-
-    db = dataset.connect(os.path.join(constant.DB_SQLITE, path), row_type=stuf)
-    table = db[constant.DB_TABLE_POSTS]
-    db.begin()
-    try:
-        table.insert(dict(title=title, content=content, created=date.today()))
-        db.commit()
-        print(f"{constant.BColors.OKBLUE}Comitted.{constant.BColors.ENDC}")
-    except:
-        db.rollback()
-        
+def zero_checker(number):
+    if number < 1:
+        return False
+    return True
 
 
+def is_plural(number,string):
+    """ check the number """
+    if number > 1:
+        return do_plural(string)
+    return string
 
+
+def do_plural(string):
+    """ add to 's' end of string """
+    return string+'s'
     
+
+def color_green_info(string):
+    """ switch string color to green """
+    return f'{color.OKGREEN}{string}\
+    {color.ENDC}'
+
+
+def color_blue_status(string):
+    """ switch string color to blue """
+    return f'{color.OKBLUE}{string}\
+    {constant.BColors.ENDC}'
+

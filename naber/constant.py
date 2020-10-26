@@ -1,6 +1,6 @@
 
 #database
-DB_PATH = './naber/storage'
+ROOT_DIR = '.'
 DB_NAME = 'naber-cli.db'
 DB_TABLE_POSTS = 'POSTS'
 DB_SQLITE = 'sqlite:///'
