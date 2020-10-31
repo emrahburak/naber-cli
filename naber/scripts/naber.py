@@ -57,11 +57,11 @@ def read(config,limit, read):
 
 
 @click.command()
-@click.option('--line', default=3, help='number of lines')
-def post(line):
-    "post your message"
+@click.option('--limit', default=3, help='number of row limit')
+def post(limit):
+    "post your content"
 
-    post = utils.multiline_content(line)
+    post = utils.multiline_content(limit)
     commit = models.to_storage(post)
     click.echo(commit)
     pass
