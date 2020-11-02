@@ -39,7 +39,7 @@ def get_storage(limit):
         print(utils.color_green_info(constant.RESULT))
 
         for row in query:
-            print(' >> ',utils.minimalize_string(row.title)
+            print(' >> ',row.id,utils.minimalize_string(row.title)
                   ,'\t', row.created)
         return utils.color_blue_status(f'Last {limit} '
                                            + utils.is_plural(limit,'row'))
